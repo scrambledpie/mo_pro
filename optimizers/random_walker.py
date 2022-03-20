@@ -1,6 +1,7 @@
+import matplotlib.pyplot as plt
 import numpy as np
 
-from .base import BaseOptimizer
+from base import BaseOptimizer
 
 
 class RandomWalker(BaseOptimizer):
@@ -9,21 +10,33 @@ class RandomWalker(BaseOptimizer):
     with a randomly selected amino acid.
     This does not 
     """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def optimize(self, x_init = None):
         
-        if x_init is not None:
+        if x_init is None:
             x_init = self.x_init
 
         x = x_init
         y = self._fun(x)
         self._xy_history.append([x, y])
 
-        for _ in range(self._num_iters):
+        for _ in range(self._num_iters - 1):
             idx = np.random.choice(self._input_length)
             aa = np.random.choice(self._amino_acids)
             x = x[:idx] + aa + x[idx+1:]
             y = self._fun(x)
             self._xy_history.append([x, y])
+
+
+if __name__=="__main__":
+    import sys
+    sys.path.append("/home/michael/mo_pro")
+    from functions.toy_funs import ToyFun
+    optimizer = RandomWalker(
+        fun=ToyFun(),
+        input_length=100,
+        num_iters=100,
+    )
+    optimizer.optimize()
+    fig, ax = plt.subplots(1, 1, figsize=(6, 6))
+    optimizer.plot_pareto(ax)
+    plt.show()

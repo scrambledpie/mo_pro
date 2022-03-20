@@ -1,6 +1,7 @@
 import abc
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class BaseOptimizer(abc.ABC):
@@ -20,6 +21,8 @@ class BaseOptimizer(abc.ABC):
             assert len(x_init) == input_length, "starting sequence is wrong length"
         else:
             x_init = "".join(np.random.choice(self._amino_acids, input_length))
+
+        self.x_init = x_init
 
     @abc.abstractmethod
     def optimize(self):
@@ -203,3 +206,29 @@ class BaseOptimizer(abc.ABC):
 
         # return the average of the linearised y values
         return np.mean(y_linearised_best)
+
+    
+    def plot_pareto(self, ax=None):
+        y_matrix = np.vstack([y for x, y in self._xy_history])
+
+        if not y_matrix.shape[1] == 2:
+            return
+
+        y_dominant, _ = self.get_pareto_points(y_matrix)
+        print(y_dominant.shape)
+        if ax is None:
+            fig, ax = plt.subplots(1, 1, figsize=(6, 6))
+
+        ax.plot(y_matrix[:, 0], y_matrix[:, 1], label="y")
+        ax.plot(y_dominant[:, 0], y_dominant[:, 1], label="pareto front")
+        ax.legend()
+
+    
+    def plot_convergence(self):
+        pass
+
+
+
+        
+
+        

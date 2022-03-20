@@ -14,8 +14,3 @@ class RandomSearch(BaseOptimizer):
             x = "".join(np.random.choice(self._amino_acids, self._input_length))
             y = self._fun(x)
             self._xy_history.append([x, y])
-        
-
-
-
-        
