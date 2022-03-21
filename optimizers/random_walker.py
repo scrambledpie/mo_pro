@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+
 import numpy as np
 
 from base import BaseOptimizer
@@ -28,15 +28,18 @@ class RandomWalker(BaseOptimizer):
 
 
 if __name__=="__main__":
+    import matplotlib.pyplot as plt
     import sys
     sys.path.append("/home/michael/mo_pro")
     from functions.toy_funs import ToyFun
+
     optimizer = RandomWalker(
         fun=ToyFun(),
-        input_length=100,
+        input_length=1000,
         num_iters=100,
     )
     optimizer.optimize()
     fig, ax = plt.subplots(1, 1, figsize=(6, 6))
     optimizer.plot_pareto(ax)
+
     plt.show()

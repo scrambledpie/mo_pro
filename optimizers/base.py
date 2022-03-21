@@ -33,14 +33,14 @@ class BaseOptimizer(abc.ABC):
         if y_matrix is None:
             y_matrix = np.array([y for x, y in self._xy_history])
 
-        y_pareto_a = y_pareto.T[:, None, :]  # (2, 1, n)
-        y_pareto_b = y_pareto.T[:, :, None]  # (2, n, 1)
+        y_pareto_a = y_matrix.T[:, None, :]  # (2, 1, n)
+        y_pareto_b = y_matrix.T[:, :, None]  # (2, n, 1)
         dominance = np.all(y_pareto_a < y_pareto_b, axis=0)  # (2, n, n) -> (n, n)
         mask_dom = np.any(dominance, axis=1)  # (n, n) -> (n)
         indeces_dom = np.where(mask_dom==False)[0]  # (num_dominated)
-        y_pareto = y_pareto[indeces_dom, :]  # noqa (num_dominated, 2)
+        y_matrix = y_matrix[indeces_dom, :]  # noqa (num_dominated, 2)
 
-        return y_pareto, indeces_dom
+        return y_matrix, indeces_dom
 
     @staticmethod
     def compute_2d_hypervolume(
@@ -219,9 +219,12 @@ class BaseOptimizer(abc.ABC):
         if ax is None:
             fig, ax = plt.subplots(1, 1, figsize=(6, 6))
 
-        ax.plot(y_matrix[:, 0], y_matrix[:, 1], label="y")
-        ax.plot(y_dominant[:, 0], y_dominant[:, 1], label="pareto front")
+        ax.scatter(y_matrix[:, 0], y_matrix[:, 1], label="y")
+        ax.scatter(y_dominant[:, 0], y_dominant[:, 1], label="pareto front")
         ax.legend()
+
+        import pdb; pdb.set_trace()
+
 
     
     def plot_convergence(self):
