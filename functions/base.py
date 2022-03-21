@@ -12,3 +12,8 @@ class BaseFun(abc.ABC):
     @abc.abstractmethod
     def __call__(self, x: str):
         pass
+
+    @property
+    @abc.abstractmethod
+    def input_length(self):
+        pass

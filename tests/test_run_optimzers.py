@@ -36,6 +36,4 @@ class TestOptimizers(unittest.TestCase):
 
 
 if __name__=="__main__":
-    tt = TestOptimizers()
-    tt.test_random_search()
-    tt.test_random_walker()
+    unittest.main()

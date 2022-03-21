@@ -229,9 +229,3 @@ class BaseOptimizer(abc.ABC):
     
     def plot_convergence(self):
         pass
-
-
-
-        
-
-        
