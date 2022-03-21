@@ -5,14 +5,18 @@
 pip3 install -r requirements.txt
 ```
 
-## Testing
+## Run Unitests to ensure stuff runs
 ```
 pytest -v
 ```
 
 ## Running an Experiment
 ```bash
-python3 scripts/single_xp_runner.py
+PYTONPTH=. python3 experiment_scripts/example.py
+```
+or
+```
+PYTONPTH=. python3 experiment_scripts/benchmark_runner.py
 ```
 
 
